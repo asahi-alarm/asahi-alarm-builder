@@ -14,4 +14,4 @@ pacman --noconfirm -S \
     powerdevil plasma-nm networkmanager-qt \
     feh calamares asahi-calamares-configs \
     firefox \
-    bluedevil bluez-utils pulseaudio-bluetooth bluez-tools
+    bluedevil bluez-utils pipewire-pulse bluez-tools
