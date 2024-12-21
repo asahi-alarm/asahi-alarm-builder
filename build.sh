@@ -27,32 +27,34 @@ clean_mounts() {
 	done
 }
 
-clean_mounts
+init() {
+	clean_mounts
 
-umount "$IMG" 2>/dev/null || true
-mkdir -p "$DL" "$IMG"
+	umount "$IMG" 2>/dev/null || true
+	mkdir -p "$DL" "$IMG"
 
-if [ ! -e "$DL/$BASE_IMAGE" ]; then
-	echo "## Downloading base image..."
-	wget -c "$BASE_IMAGE_URL" -O "$DL/$BASE_IMAGE.part"
-	mv "$DL/$BASE_IMAGE.part" "$DL/$BASE_IMAGE"
-fi
+	if [ ! -e "$DL/$BASE_IMAGE" ]; then
+		echo "## Downloading base image..."
+		wget -c "$BASE_IMAGE_URL" -O "$DL/$BASE_IMAGE.part"
+		mv "$DL/$BASE_IMAGE.part" "$DL/$BASE_IMAGE"
+	fi
 
-umount "$ROOT" 2>/dev/null || true
-rm -rf "$ROOT"
-mkdir -p "$ROOT"
+	umount "$ROOT" 2>/dev/null || true
+	rm -rf "$ROOT"
+	mkdir -p "$ROOT"
 
-echo "## Unpacking base image..."
-bsdtar -xpf "$DL/$BASE_IMAGE" -C "$ROOT"
+	echo "## Unpacking base image..."
+	bsdtar -xpf "$DL/$BASE_IMAGE" -C "$ROOT"
 
-cp -r "$FILES" "$ROOT"
+	cp -r "$FILES" "$ROOT"
 
-mount --bind "$ROOT" "$ROOT"
+	mount --bind "$ROOT" "$ROOT"
 
-cp "$ROOT"/etc/pacman.d/mirrorlist{,.orig}
+	cp "$ROOT"/etc/pacman.d/mirrorlist{,.orig}
 
-echo "## Installing keyring package..."
-pacstrap -G "$ROOT" asahi-alarm-keyring
+	echo "## Installing keyring package..."
+	pacstrap -G "$ROOT" asahi-alarm-keyring
+}
 
 run_scripts() {
 	group="$1"
@@ -127,10 +129,17 @@ make_image() {
 	echo "### Done"
 }
 
+init 
 run_scripts base
 make_image "asahi-base"
 
 run_scripts plasma
 make_image "asahi-plasma"
+
+init
+run_scripts base
+
+run_scripts gnome
+make_image "asahi-gnome"
 
 make_uefi_image "uefi-only"

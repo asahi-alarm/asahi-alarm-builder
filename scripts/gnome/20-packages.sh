@@ -8,10 +8,9 @@ pacman --noconfirm -S \
     networkmanager \
     xorg-server xf86-input-evdev xorg-xinput xorg-xinit xorg-xdpyinfo \
     mesa-demos mesa-utils \
-    plasma-meta konsole dolphin sddm kde-applications-meta \
-    pipewire pipewire-jack pavucontrol wireplumber phonon-qt5-gstreamer \
+    gnome gnome-tweaks \
+    pipewire pipewire-jack pavucontrol wireplumber \
     noto-fonts noto-fonts-cjk noto-fonts-emoji \
-    powerdevil plasma-nm networkmanager-qt \
     feh calamares asahi-calamares-configs \
     firefox \
-    bluedevil bluez-utils pipewire-pulse bluez-tools
+    bluez-utils pipewire-pulse bluez-tools
