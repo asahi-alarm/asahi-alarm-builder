@@ -106,11 +106,9 @@ make_image() {
 	rsync -aHAX \
 		--exclude /files \
 		--exclude '/tmp/*' \
-		--exclude '/etc/pacman.d/gnupg/*' \
 		--exclude /etc/machine-id \
 		--exclude '/boot/efi/*' \
 		"$ROOT/" "$IMG/"
-	sed -i s/asahi-dev/asahi/g "$IMG"/etc/pacman.conf
 	mv -f "$IMG"/etc/pacman.d/mirrorlist{.orig,}
 	echo "### Running grub-mkconfig..."
 	arch-chroot "$IMG" grub-mkconfig -o /boot/grub/grub.cfg
