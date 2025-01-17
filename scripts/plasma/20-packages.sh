@@ -3,9 +3,8 @@ set -e
 
 pacman --noconfirm -S \
     asahi-desktop-meta arch-install-scripts pacman-contrib \
-    zsh vim wget htop unzip strace rsync powertop git \
+    zsh wget htop unzip strace rsync powertop git \
     man-db alsa-tools alsa-utils evtest iotop \
-    networkmanager \
     xorg-server xf86-input-evdev xorg-xinput xorg-xinit xorg-xdpyinfo \
     mesa-demos mesa-utils \
     plasma-meta konsole dolphin sddm kde-applications-meta \
