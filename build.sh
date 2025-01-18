@@ -134,9 +134,9 @@ make_image "asahi-base"
 run_scripts plasma
 make_image "asahi-plasma"
 
+# need to run init and base again or we end up with an image with KDE + GNOME
 init
 run_scripts base
-
 run_scripts gnome
 make_image "asahi-gnome"
 
