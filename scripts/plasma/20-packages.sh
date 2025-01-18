@@ -5,12 +5,11 @@ pacman --noconfirm -S \
     asahi-desktop-meta arch-install-scripts pacman-contrib \
     zsh wget htop unzip strace rsync powertop git \
     man-db alsa-tools alsa-utils evtest iotop \
-    xorg-server xf86-input-evdev xorg-xinput xorg-xinit xorg-xdpyinfo \
     mesa-demos mesa-utils \
     plasma-meta konsole dolphin sddm kde-applications-meta \
     pipewire pipewire-jack pavucontrol wireplumber phonon-qt5-gstreamer \
     noto-fonts noto-fonts-cjk noto-fonts-emoji \
     powerdevil plasma-nm networkmanager-qt \
-    feh calamares asahi-calamares-configs \
+    calamares asahi-calamares-configs \
     firefox \
     bluedevil bluez-utils pipewire-pulse bluez-tools
