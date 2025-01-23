@@ -1,0 +1,42 @@
+name: build installer images
+on:
+  workflow_dispatch:
+jobs:
+  compile:
+    name: build installer images
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+      - name: Display runner UID and GID
+        run: |
+          echo "Runner UID: $(id -u)"
+          echo "Runner GID: $(id -g)"
+        id: get_ids
+      - name: Run the build process with Docker
+        uses: addnab/docker-run-action@v3
+        with:
+          image: josdehaes/asahi-alarm-pkgbuild:latest
+          options: >
+            -v ${{ github.workspace }}:/home/user/PKGBUILDs --user 1001:116 -e SSHPASS=${{ secrets.PASSWORD }} --privileged
+
+          run: |
+            set -ex
+            sudo pacman -S --noconfirm arch-install-scripts sshpass wget rsync zip
+            sudo ./build.sh
+            cd images
+            # first upload under a different name then rename all the files to the correct name because the upload can take a very long time 
+            sshpass -e scp -o StrictHostKeyChecking=no asahi-base.zip asahim@asahi-alarm.org:/public_html/base
+            # Note that batch mode must be set to no in conjuction with -b because of a bug in sftp
+            # if you use -b, it enables batch mode, which disables password authentication
+            sshpass -e sftp -o StrictHostKeyChecking=no -o BatchMode=no -b - asahim@asahi-alarm.org << EOF
+              rename /public_html/base /public_html/asahi-base.zip
+            EOF
+            sshpass -e scp -o StrictHostKeyChecking=no asahi-gnome.zip asahim@asahi-alarm.org:/public_html/gnome
+            sshpass -e sftp -o StrictHostKeyChecking=no -o BatchMode=no -b - asahim@asahi-alarm.org << EOF
+              rename /public_html/gnome /public_html/asahi-gnome.zip
+            EOF
+            sshpass -e scp -o StrictHostKeyChecking=no asahi-plasma.zip asahim@asahi-alarm.org:/public_html/plasma
+            sshpass -e sftp -o StrictHostKeyChecking=no -o BatchMode=no -b - asahim@asahi-alarm.org << EOF
+              rename /public_html/plasma /public_html/asahi-plasma.zip
+            EOF

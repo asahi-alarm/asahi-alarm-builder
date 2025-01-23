@@ -1,6 +1,8 @@
 #!/bin/sh
 set -e
 
+# first install mesa-asahi to avoid conflicts with mesa
+pacman --noconfirm -S mesa-asahi
 pacman --noconfirm -S \
     asahi-desktop-meta arch-install-scripts pacman-contrib \
     zsh wget htop unzip strace rsync powertop git \
