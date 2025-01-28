@@ -40,3 +40,11 @@ jobs:
             sshpass -e sftp -o StrictHostKeyChecking=no -o BatchMode=no -b - asahim@asahi-alarm.org << EOF
               rename /public_html/plasma /public_html/asahi-plasma.zip
             EOF
+            sshpass -e scp -o StrictHostKeyChecking=no asahi-xfce.zip asahim@asahi-alarm.org:/public_html/xfce
+            sshpass -e sftp -o StrictHostKeyChecking=no -o BatchMode=no -b - asahim@asahi-alarm.org << EOF
+              rename /public_html/xfce /public_html/asahi-xfce.zip
+            EOF
+            sshpass -e scp -o StrictHostKeyChecking=no uefi-only.zip asahim@asahi-alarm.org:/public_html/uefi-only
+            sshpass -e sftp -o StrictHostKeyChecking=no -o BatchMode=no -b - asahim@asahi-alarm.org << EOF
+              rename /public_html/uefi-only /public_html/uefi-only.zip
+            EOF

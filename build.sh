@@ -140,4 +140,10 @@ run_scripts base
 run_scripts gnome
 make_image "asahi-gnome"
 
+# and again for XFCE
+init
+run_scripts base
+run_scripts xfce
+make_image "asahi-xfce"
+
 make_uefi_image "uefi-only"
