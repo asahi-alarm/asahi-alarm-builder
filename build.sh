@@ -130,7 +130,6 @@ make_image() {
 init 
 run_scripts base
 make_image "asahi-base"
-
 run_scripts plasma
 make_image "asahi-plasma"
 
@@ -145,5 +144,11 @@ init
 run_scripts base
 run_scripts xfce
 make_image "asahi-xfce"
+
+# and again for MATE - disabled for now, no space on hetzner for another
+# init
+# run_scripts base
+# run_scripts mate
+# make_image "asahi-mate"
 
 make_uefi_image "uefi-only"
