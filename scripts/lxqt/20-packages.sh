@@ -6,7 +6,7 @@ pacman --noconfirm -S \
     zsh wget htop unzip strace rsync powertop git \
     man-db alsa-tools alsa-utils evtest iotop \
     mesa mesa-demos mesa-utils glmark2 \
-    lxqt xorg-xinit breeze-icons oxygen-icons network-manager-applet lightdm lightdm-gtk-greeter xscreensaver feh gvfs blueman \
+    lxqt xorg-xinit breeze-icons oxygen-icons xscreensaver gvfs feh lightdm-gtk-greeter network-manager-applet blueman \
     pipewire pipewire-jack pavucontrol wireplumber \
     noto-fonts noto-fonts-cjk noto-fonts-emoji \
     calamares asahi-calamares-configs \
