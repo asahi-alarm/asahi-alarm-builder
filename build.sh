@@ -127,7 +127,7 @@ make_image() {
 	echo "### Done"
 }
 
-init 
+init
 run_scripts base
 make_image "asahi-base"
 run_scripts plasma
@@ -150,5 +150,11 @@ make_image "asahi-xfce"
 # run_scripts base
 # run_scripts mate
 # make_image "asahi-mate"
+
+# and again for lxqt - disabled for now, no space on hetzner for another
+# init
+# run_scripts base
+# run_scripts lxqt
+# make_image "asahi-lxqt"
 
 make_uefi_image "uefi-only"
