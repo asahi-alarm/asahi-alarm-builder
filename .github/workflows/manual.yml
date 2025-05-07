@@ -46,6 +46,14 @@ jobs:
             sshpass -e sftp -o StrictHostKeyChecking=no -o BatchMode=no -b - asahim@asahi-alarm.org << EOF
               rename /public_html/xfce /public_html/asahi-xfce.zip
             EOF
+            sshpass -e scp -o StrictHostKeyChecking=no asahi-mate.zip asahim@asahi-alarm.org:/public_html/mate
+            sshpass -e sftp -o StrictHostKeyChecking=no -o BatchMode=no -b - asahim@asahi-alarm.org << EOF
+              rename /public_html/mate /public_html/asahi-mate.zip
+            EOF
+            sshpass -e scp -o StrictHostKeyChecking=no asahi-lxqt.zip asahim@asahi-alarm.org:/public_html/lxqt
+            sshpass -e sftp -o StrictHostKeyChecking=no -o BatchMode=no -b - asahim@asahi-alarm.org << EOF
+              rename /public_html/lxqt /public_html/asahi-lxqt.zip
+            EOF
             sshpass -e scp -o StrictHostKeyChecking=no uefi-only.zip asahim@asahi-alarm.org:/public_html/uefi-only
             sshpass -e sftp -o StrictHostKeyChecking=no -o BatchMode=no -b - asahim@asahi-alarm.org << EOF
               rename /public_html/uefi-only /public_html/uefi-only.zip
