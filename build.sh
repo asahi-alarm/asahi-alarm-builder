@@ -80,6 +80,8 @@ make_uefi_image() {
 	(
 		cd "$img"
 		zip -r ../"$imgname".zip *
+		cd ..
+		rm -rf "$img"
 	)
 	echo "### Done"
 }
@@ -123,6 +125,8 @@ make_image() {
 	(
 		cd "$img"
 		zip -1 -r ../"$imgname".zip *
+		cd ..
+		rm -rf "$img"
 	)
 	echo "### Done"
 }
