@@ -145,16 +145,16 @@ run_scripts base
 run_scripts xfce
 make_image "asahi-xfce"
 
-# and again for MATE - disabled for now, no space on hetzner for another
-# init
-# run_scripts base
-# run_scripts mate
-# make_image "asahi-mate"
+# and again for MATE
+init
+run_scripts base
+run_scripts mate
+make_image "asahi-mate"
 
-# and again for lxqt - disabled for now, no space on hetzner for another
-# init
-# run_scripts base
-# run_scripts lxqt
-# make_image "asahi-lxqt"
+# and again for lxqt
+init
+run_scripts base
+run_scripts lxqt
+make_image "asahi-lxqt"
 
 make_uefi_image "uefi-only"
