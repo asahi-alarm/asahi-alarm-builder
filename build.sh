@@ -161,4 +161,10 @@ run_scripts base
 run_scripts lxqt
 make_image "asahi-lxqt"
 
+# and again for hyprland
+init
+run_scripts base
+run_scripts hyprland
+make_image "asahi-hyprland"
+
 make_uefi_image "uefi-only"

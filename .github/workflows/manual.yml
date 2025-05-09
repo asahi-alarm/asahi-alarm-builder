@@ -57,6 +57,10 @@ jobs:
             sshpass -e sftp -o StrictHostKeyChecking=no -o BatchMode=no -b - asahim@asahi-alarm.org << EOF
               rename /public_html/lxqt /public_html/asahi-lxqt.zip
             EOF
+            sshpass -e scp -o StrictHostKeyChecking=no asahi-hyprland.zip asahim@asahi-alarm.org:/public_html/hyprland
+            sshpass -e sftp -o StrictHostKeyChecking=no -o BatchMode=no -b - asahim@asahi-alarm.org << EOF
+              rename /public_html/hyprland /public_html/asahi-hyprland.zip
+            EOF
             sshpass -e scp -o StrictHostKeyChecking=no uefi-only.zip asahim@asahi-alarm.org:/public_html/uefi-only
             sshpass -e sftp -o StrictHostKeyChecking=no -o BatchMode=no -b - asahim@asahi-alarm.org << EOF
               rename /public_html/uefi-only /public_html/uefi-only.zip
