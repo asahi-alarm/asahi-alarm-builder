@@ -65,3 +65,10 @@ jobs:
             sshpass -e sftp -o StrictHostKeyChecking=no -o BatchMode=no -b - asahim@asahi-alarm.org << EOF
               rename /public_html/uefi-only /public_html/uefi-only.zip
             EOF
+  workflow-keepalive:
+    if: github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+    steps:
+      - uses: liskin/gh-workflow-keepalive@v1
