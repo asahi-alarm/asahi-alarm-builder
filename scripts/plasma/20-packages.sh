@@ -7,7 +7,7 @@ pacman --noconfirm -S \
     man-db alsa-tools alsa-utils evtest iotop \
     mesa mesa-demos mesa-utils glmark2 \
     plasma-meta konsole dolphin sddm kde-applications-meta \
-    pipewire pipewire-jack pavucontrol wireplumber phonon-qt5-gstreamer \
+    pipewire pipewire-jack pavucontrol wireplumber \
     noto-fonts noto-fonts-cjk noto-fonts-emoji \
     powerdevil plasma-nm networkmanager-qt \
     calamares asahi-calamares-configs \
