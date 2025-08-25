@@ -6,6 +6,7 @@ pacman --noconfirm -S \
     zsh wget htop unzip strace rsync powertop git \
     man-db alsa-tools alsa-utils evtest iotop \
     mesa mesa-demos mesa-utils glmark2 \
+    qt6-multimedia-gstreamer audacity tesseract-data-eng \
     plasma-meta konsole dolphin sddm kde-applications-meta \
     pipewire pipewire-jack pavucontrol wireplumber \
     noto-fonts noto-fonts-cjk noto-fonts-emoji \
