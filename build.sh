@@ -96,14 +96,21 @@ make_image() {
 	echo "### Calculating image size..."
 	size="$(du -B M -s "$ROOT" | cut -dM -f1)"
 	echo "### Image size: $size MiB"
-	size=$(($size + ($size / 8) + 64))
+	size=$(($size + ($size / 8) + 256))
 	echo "### Padded size: $size MiB"
 	rm -f "$img/root.img"
 	truncate -s "${size}M" "$img/root.img"
 	echo "### Making filesystem..."
-	mkfs.ext4 -O '^metadata_csum' -U "$ROOT_UUID" -L "asahi-root" "$img/root.img"
-	echo "### Loop mounting..."
-	mount -o loop "$img/root.img" "$IMG"
+	mkfs.btrfs -U "$ROOT_UUID" -L "asahi-root" "$img/root.img"
+	echo "### Creating btrfs subvolumes (@, @home)..."
+	mount -o loop,subvolid=5 "$img/root.img" "$IMG"
+	btrfs subvolume create "$IMG/@"
+	btrfs subvolume create "$IMG/@home"
+
+	umount "$IMG"
+
+	echo "### Mounting @ as / ..."
+	mount -o loop,subvol=@ "$img/root.img" "$IMG"
 	echo "### Copying files..."
 	rsync -aHAX \
 		--exclude /files \

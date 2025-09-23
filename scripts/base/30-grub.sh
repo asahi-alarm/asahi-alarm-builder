@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-MODULES="ext2 part_gpt search"
+MODULES="ext2 part_gpt search btrfs"
 
 mkdir -p /boot/efi
 
@@ -9,7 +9,7 @@ uuid="$ROOT_UUID"
 
 cat >/tmp/grub-core.cfg <<EOF
 search.fs_uuid $ROOT_UUID root
-set prefix=(\$root)'/boot/grub'
+set prefix=(\$root)'/@/boot/grub'
 EOF
 
 # efi_uga seems to be gone
