@@ -96,12 +96,12 @@ make_image() {
 	echo "### Calculating image size..."
 	size="$(du -B M -s "$ROOT" | cut -dM -f1)"
 	echo "### Image size: $size MiB"
-	size=$(($size + ($size / 8) + 64))
+	size=$(($size + ($size / 8) + 256))
 	echo "### Padded size: $size MiB"
 	rm -f "$img/root.img"
 	truncate -s "${size}M" "$img/root.img"
 	echo "### Making filesystem..."
-	mkfs.ext4 -O '^metadata_csum' -U "$ROOT_UUID" -L "asahi-root" "$img/root.img"
+	mkfs.btrfs -U "$ROOT_UUID" -L "asahi-root" "$img/root.img"
 	echo "### Loop mounting..."
 	mount -o loop "$img/root.img" "$IMG"
 	echo "### Copying files..."
@@ -134,37 +134,40 @@ make_image() {
 init
 run_scripts base
 make_image "asahi-base"
-run_scripts plasma
-make_image "asahi-plasma"
 
-# need to run init and base again or we end up with an image with KDE + GNOME
-init
-run_scripts base
-run_scripts gnome
-make_image "asahi-gnome"
-
-# and again for XFCE
-init
-run_scripts base
-run_scripts xfce
-make_image "asahi-xfce"
-
-# and again for MATE
-init
-run_scripts base
-run_scripts mate
-make_image "asahi-mate"
-
-# and again for lxqt
-init
-run_scripts base
-run_scripts lxqt
-make_image "asahi-lxqt"
-
-# and again for hyprland
-init
-run_scripts base
-run_scripts hyprland
-make_image "asahi-hyprland"
-
-make_uefi_image "uefi-only"
+#init
+#run_scripts base
+#run_scripts plasma
+#make_image "asahi-plasma"
+#
+## need to run init and base again or we end up with an image with KDE + GNOME
+#init
+#run_scripts base
+#run_scripts gnome
+#make_image "asahi-gnome"
+#
+## and again for XFCE
+#init
+#run_scripts base
+#run_scripts xfce
+#make_image "asahi-xfce"
+#
+## and again for MATE
+#init
+#run_scripts base
+#run_scripts mate
+#make_image "asahi-mate"
+#
+## and again for lxqt
+#init
+#run_scripts base
+#run_scripts lxqt
+#make_image "asahi-lxqt"
+#
+## and again for hyprland
+#init
+#run_scripts base
+#run_scripts hyprland
+#make_image "asahi-hyprland"
+#
+#make_uefi_image "uefi-only"
