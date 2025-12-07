@@ -3,7 +3,8 @@
 set -e
 
 BASE_IMAGE_URL="https://archlinuxarm.org/os/ArchLinuxARM-aarch64-latest.tar.gz"
-BASE_IMAGE="$(basename "$BASE_IMAGE_URL")"
+# BASE_IMAGE="$(basename "$BASE_IMAGE_URL")"
+BASE_IMAGE=arch-aarch64.tgz
 
 DL="$PWD/dl"
 ROOT="$PWD/root"
@@ -134,37 +135,37 @@ make_image() {
 init
 run_scripts base
 make_image "asahi-base"
-run_scripts plasma
-make_image "asahi-plasma"
+# run_scripts plasma
+# make_image "asahi-plasma"
 
 # need to run init and base again or we end up with an image with KDE + GNOME
 init
 run_scripts base
 run_scripts gnome
 make_image "asahi-gnome"
-
-# and again for XFCE
-init
-run_scripts base
-run_scripts xfce
-make_image "asahi-xfce"
-
-# and again for MATE
-init
-run_scripts base
-run_scripts mate
-make_image "asahi-mate"
-
-# and again for lxqt
-init
-run_scripts base
-run_scripts lxqt
-make_image "asahi-lxqt"
-
-# and again for hyprland
-init
-run_scripts base
-run_scripts hyprland
-make_image "asahi-hyprland"
-
-make_uefi_image "uefi-only"
+#
+# # and again for XFCE
+# init
+# run_scripts base
+# run_scripts xfce
+# make_image "asahi-xfce"
+#
+# # and again for MATE
+# init
+# run_scripts base
+# run_scripts mate
+# make_image "asahi-mate"
+#
+# # and again for lxqt
+# init
+# run_scripts base
+# run_scripts lxqt
+# make_image "asahi-lxqt"
+#
+# # and again for hyprland
+# init
+# run_scripts base
+# run_scripts hyprland
+# make_image "asahi-hyprland"
+#
+# make_uefi_image "uefi-only"
