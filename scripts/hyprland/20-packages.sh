@@ -6,7 +6,7 @@ pacman --noconfirm -S \
     zsh wget htop unzip strace rsync powertop git \
     man-db alsa-tools alsa-utils evtest iotop \
     mesa mesa-demos mesa-utils glmark2 \
-    hyprland hyprcursor hyprgraphics hypridle hyprland-protocols hyprland-qt-support hyprland-qtutils \
+    hyprland hyprcursor hyprgraphics hypridle hyprland-protocols hyprland-qt-support hyprland-guiutils \
     hyprlang hyprlock hyprpaper hyprpicker hyprpolkitagent hyprsunset hyprutils nwg-displays \
     nwg-dock-hyprland nwg-panel sddm uwsm kitty libnewt libnotify wofi wmenu labwc \
     pipewire pipewire-jack pavucontrol wireplumber \
