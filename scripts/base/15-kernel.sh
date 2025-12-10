@@ -1,6 +1,6 @@
 #!/bin/sh
 
-sed -i -e 's/^HOOKS=(base /HOOKS=(base asahi /' \
+sed -i -e 's/^HOOKS=(base systemd/HOOKS=(base asahi udev/' \
 	/etc/mkinitcpio.conf
 
 mkdir -p /boot/efi/m1n1
