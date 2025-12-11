@@ -2,9 +2,8 @@
 
 set -e
 
-BASE_IMAGE_URL="https://archlinuxarm.org/os/ArchLinuxARM-aarch64-latest.tar.gz"
-# BASE_IMAGE="$(basename "$BASE_IMAGE_URL")"
-BASE_IMAGE=arch-aarch64.tgz
+BASE_IMAGE_URL="https://arch-linux-repo.drzee.net/arch/tarballs/os/aarch64/archlinux-bootstrap-2025.12.01-aarch64.tar.zst"
+BASE_IMAGE="$(basename "$BASE_IMAGE_URL")"
 
 DL="$PWD/dl"
 ROOT="$PWD/root"
@@ -45,7 +44,7 @@ init() {
 	mkdir -p "$ROOT"
 
 	echo "## Unpacking base image..."
-	bsdtar -xpf "$DL/$BASE_IMAGE" -C "$ROOT"
+	bsdtar -xpf "$DL/$BASE_IMAGE" -C "$ROOT" -s '!^root\.aarch64/!!' root.aarch64
 
 	cp -r "$FILES" "$ROOT"
 
