@@ -133,38 +133,38 @@ make_image() {
 
 init
 run_scripts base
-make_image "asahi-base"
+make_image "asahi-archport-base"
 # run_scripts plasma
-# make_image "asahi-plasma"
+# make_image "asahi-archport-plasma"
 
 # need to run init and base again or we end up with an image with KDE + GNOME
-init
-run_scripts base
+# init
+# run_scripts base
 run_scripts gnome
-make_image "asahi-gnome"
+make_image "asahi-archport-gnome"
 #
 # # and again for XFCE
 # init
 # run_scripts base
 # run_scripts xfce
-# make_image "asahi-xfce"
+# make_image "asahi-archport-xfce"
 #
 # # and again for MATE
 # init
 # run_scripts base
 # run_scripts mate
-# make_image "asahi-mate"
+# make_image "asahi-archport-mate"
 #
 # # and again for lxqt
 # init
 # run_scripts base
 # run_scripts lxqt
-# make_image "asahi-lxqt"
+# make_image "asahi-archport-lxqt"
 #
 # # and again for hyprland
 # init
 # run_scripts base
 # run_scripts hyprland
-# make_image "asahi-hyprland"
+# make_image "asahi-archport-hyprland"
 #
 # make_uefi_image "uefi-only"
