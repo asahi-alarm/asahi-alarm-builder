@@ -7,10 +7,13 @@ mkdir -p /boot/efi
 
 uuid="$ROOT_UUID"
 
-cat > /tmp/grub-core.cfg <<EOF
+cat >/tmp/grub-core.cfg <<EOF
 search.fs_uuid $ROOT_UUID root
 set prefix=(\$root)'/boot/grub'
 EOF
+
+# efi_uga seems to be gone
+sed -i '/efi_uga/d' /etc/grub.d/00_header
 
 # grub-install refuses to work without a mounted EFI partition... sigh.
 echo "Installing GRUB..."
