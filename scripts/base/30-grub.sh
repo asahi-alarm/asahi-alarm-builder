@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 set -e
 
 MODULES="ext2 part_gpt search"
@@ -25,11 +25,13 @@ cp -r /usr/lib/grub/arm64-efi /boot/grub/
 rm -f /boot/grub/arm64-efi/*.module
 mkdir -p /boot/grub/{fonts,locale}
 cp /usr/share/grub/unicode.pf2 /boot/grub/fonts
-# TODO: fix this
-#for i in /usr/share/locale/*/LC_MESSAGES/grub.mo; do
-#    lc="$(echo "$i" | cut -d/ -f5)"
-#    cp "$i" /boot/grub/locale/"$lc".mo
-#done
+
+shopt -s nullglob
+
+for i in /usr/share/locale/*/LC_MESSAGES/grub.mo; do
+    lc="$(echo "$i" | cut -d/ -f5)"
+    cp "$i" /boot/grub/locale/"$lc".mo
+done
 
 echo "Generating GRUB image..."
 grub-mkimage \
