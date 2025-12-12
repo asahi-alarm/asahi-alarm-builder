@@ -31,40 +31,40 @@ jobs:
             sudo ./build.sh
             cd images
             # first upload under a different name then rename all the files to the correct name because the upload can take a very long time 
-            sshpass -e scp -o StrictHostKeyChecking=no asahi-base.zip asahim@asahi-alarm.org:/public_html/base
+            sshpass -e scp -o StrictHostKeyChecking=no asahi-archport-base.zip asahim@asahi-alarm.org:/public_html/base
             # Note that batch mode must be set to no in conjuction with -b because of a bug in sftp
             # if you use -b, it enables batch mode, which disables password authentication
             sshpass -e sftp -o StrictHostKeyChecking=no -o BatchMode=no -b - asahim@asahi-alarm.org << EOF
-              rename /public_html/base /public_html/asahi-base.zip
+              rename /public_html/base /public_html/asahi-archport-base.zip
             EOF
-            sshpass -e scp -o StrictHostKeyChecking=no asahi-gnome.zip asahim@asahi-alarm.org:/public_html/gnome
+            sshpass -e scp -o StrictHostKeyChecking=no asahi-archport-gnome.zip asahim@asahi-alarm.org:/public_html/gnome
             sshpass -e sftp -o StrictHostKeyChecking=no -o BatchMode=no -b - asahim@asahi-alarm.org << EOF
-              rename /public_html/gnome /public_html/asahi-gnome.zip
+              rename /public_html/gnome /public_html/asahi-archport-gnome.zip
             EOF
-            sshpass -e scp -o StrictHostKeyChecking=no asahi-plasma.zip asahim@asahi-alarm.org:/public_html/plasma
-            sshpass -e sftp -o StrictHostKeyChecking=no -o BatchMode=no -b - asahim@asahi-alarm.org << EOF
-              rename /public_html/plasma /public_html/asahi-plasma.zip
-            EOF
-            sshpass -e scp -o StrictHostKeyChecking=no asahi-xfce.zip asahim@asahi-alarm.org:/public_html/xfce
-            sshpass -e sftp -o StrictHostKeyChecking=no -o BatchMode=no -b - asahim@asahi-alarm.org << EOF
-              rename /public_html/xfce /public_html/asahi-xfce.zip
-            EOF
-            sshpass -e scp -o StrictHostKeyChecking=no asahi-mate.zip asahim@asahi-alarm.org:/public_html/mate
-            sshpass -e sftp -o StrictHostKeyChecking=no -o BatchMode=no -b - asahim@asahi-alarm.org << EOF
-              rename /public_html/mate /public_html/asahi-mate.zip
-            EOF
-            sshpass -e scp -o StrictHostKeyChecking=no asahi-lxqt.zip asahim@asahi-alarm.org:/public_html/lxqt
-            sshpass -e sftp -o StrictHostKeyChecking=no -o BatchMode=no -b - asahim@asahi-alarm.org << EOF
-              rename /public_html/lxqt /public_html/asahi-lxqt.zip
-            EOF
-            sshpass -e scp -o StrictHostKeyChecking=no asahi-hyprland.zip asahim@asahi-alarm.org:/public_html/hyprland
-            sshpass -e sftp -o StrictHostKeyChecking=no -o BatchMode=no -b - asahim@asahi-alarm.org << EOF
-              rename /public_html/hyprland /public_html/asahi-hyprland.zip
-            EOF
-            sshpass -e scp -o StrictHostKeyChecking=no uefi-only.zip asahim@asahi-alarm.org:/public_html/uefi-only
-            sshpass -e sftp -o StrictHostKeyChecking=no -o BatchMode=no -b - asahim@asahi-alarm.org << EOF
-              rename /public_html/uefi-only /public_html/uefi-only.zip
-            EOF
+            # sshpass -e scp -o StrictHostKeyChecking=no asahi-archport-plasma.zip asahim@asahi-alarm.org:/public_html/plasma
+            # sshpass -e sftp -o StrictHostKeyChecking=no -o BatchMode=no -b - asahim@asahi-alarm.org << EOF
+            #   rename /public_html/plasma /public_html/asahi-archport-plasma.zip
+            # EOF
+            # sshpass -e scp -o StrictHostKeyChecking=no asahi-archport-xfce.zip asahim@asahi-alarm.org:/public_html/xfce
+            # sshpass -e sftp -o StrictHostKeyChecking=no -o BatchMode=no -b - asahim@asahi-alarm.org << EOF
+            #   rename /public_html/xfce /public_html/asahi-archport-xfce.zip
+            # EOF
+            # sshpass -e scp -o StrictHostKeyChecking=no asahi-archport-mate.zip asahim@asahi-alarm.org:/public_html/mate
+            # sshpass -e sftp -o StrictHostKeyChecking=no -o BatchMode=no -b - asahim@asahi-alarm.org << EOF
+            #   rename /public_html/mate /public_html/asahi-archport-mate.zip
+            # EOF
+            # sshpass -e scp -o StrictHostKeyChecking=no asahi-archport-lxqt.zip asahim@asahi-alarm.org:/public_html/lxqt
+            # sshpass -e sftp -o StrictHostKeyChecking=no -o BatchMode=no -b - asahim@asahi-alarm.org << EOF
+            #   rename /public_html/lxqt /public_html/asahi-archport-lxqt.zip
+            # EOF
+            # sshpass -e scp -o StrictHostKeyChecking=no asahi-archport-hyprland.zip asahim@asahi-alarm.org:/public_html/hyprland
+            # sshpass -e sftp -o StrictHostKeyChecking=no -o BatchMode=no -b - asahim@asahi-alarm.org << EOF
+            #   rename /public_html/hyprland /public_html/asahi-archport-hyprland.zip
+            # EOF
+            # sshpass -e scp -o StrictHostKeyChecking=no uefi-only.zip asahim@asahi-alarm.org:/public_html/uefi-only
+            # sshpass -e sftp -o StrictHostKeyChecking=no -o BatchMode=no -b - asahim@asahi-alarm.org << EOF
+            #   rename /public_html/uefi-only /public_html/uefi-only.zip
+            # EOF
   workflow-keepalive:
     if: github.event_name == 'schedule'
     runs-on: ubuntu-latest
