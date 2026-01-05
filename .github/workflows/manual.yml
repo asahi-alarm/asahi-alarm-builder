@@ -61,6 +61,10 @@ jobs:
             sshpass -e sftp -o StrictHostKeyChecking=no -o BatchMode=no -b - asahim@asahi-alarm.org << EOF
               rename /public_html/hyprland /public_html/asahi-hyprland.zip
             EOF
+            sshpass -e scp -o StrictHostKeyChecking=no asahi-cosmic.zip asahim@asahi-alarm.org:/public_html/cosmic
+            sshpass -e sftp -o StrictHostKeyChecking=no -o BatchMode=no -b - asahim@asahi-alarm.org << EOF
+              rename /public_html/cosmic /public_html/asahi-cosmic.zip
+            EOF
             sshpass -e scp -o StrictHostKeyChecking=no uefi-only.zip asahim@asahi-alarm.org:/public_html/uefi-only
             sshpass -e sftp -o StrictHostKeyChecking=no -o BatchMode=no -b - asahim@asahi-alarm.org << EOF
               rename /public_html/uefi-only /public_html/uefi-only.zip

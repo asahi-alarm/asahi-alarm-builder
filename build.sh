@@ -143,6 +143,12 @@ run_scripts base
 run_scripts gnome
 make_image "asahi-gnome"
 
+# and again for cosmic
+init
+run_scripts base
+run_scripts cosmic
+make_image "asahi-cosmic"
+
 # and again for XFCE
 init
 run_scripts base
