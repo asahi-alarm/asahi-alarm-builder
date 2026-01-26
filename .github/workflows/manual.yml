@@ -69,6 +69,38 @@ jobs:
             sshpass -e sftp -o StrictHostKeyChecking=no -o BatchMode=no -b - asahim@asahi-alarm.org << EOF
               rename /public_html/uefi-only /public_html/uefi-only.zip
             EOF
+            sshpass -e scp -o StrictHostKeyChecking=no asahi-base-btrfs.zip asahim@asahi-alarm.org:/public_html/base-btrfs
+            sshpass -e sftp -o StrictHostKeyChecking=no -o BatchMode=no -b - asahim@asahi-alarm.org << EOF
+              rename /public_html/base-btrfs /public_html/asahi-base-btrfs.zip
+            EOF
+            sshpass -e scp -o StrictHostKeyChecking=no asahi-gnome-btrfs.zip asahim@asahi-alarm.org:/public_html/gnome-btrfs
+            sshpass -e sftp -o StrictHostKeyChecking=no -o BatchMode=no -b - asahim@asahi-alarm.org << EOF
+              rename /public_html/gnome-btrfs /public_html/asahi-gnome-btrfs.zip
+            EOF
+            sshpass -e scp -o StrictHostKeyChecking=no asahi-plasma-btrfs.zip asahim@asahi-alarm.org:/public_html/plasma-btrfs
+            sshpass -e sftp -o StrictHostKeyChecking=no -o BatchMode=no -b - asahim@asahi-alarm.org << EOF
+              rename /public_html/plasma-btrfs /public_html/asahi-plasma-btrfs.zip
+            EOF
+            sshpass -e scp -o StrictHostKeyChecking=no asahi-xfce-btrfs.zip asahim@asahi-alarm.org:/public_html/xfce-btrfs
+            sshpass -e sftp -o StrictHostKeyChecking=no -o BatchMode=no -b - asahim@asahi-alarm.org << EOF
+              rename /public_html/xfce-btrfs /public_html/asahi-xfce-btrfs.zip
+            EOF
+            sshpass -e scp -o StrictHostKeyChecking=no asahi-mate-btrfs.zip asahim@asahi-alarm.org:/public_html/mate-btrfs
+            sshpass -e sftp -o StrictHostKeyChecking=no -o BatchMode=no -b - asahim@asahi-alarm.org << EOF
+              rename /public_html/mate-btrfs /public_html/asahi-mate-btrfs.zip
+            EOF
+            sshpass -e scp -o StrictHostKeyChecking=no asahi-lxqt-btrfs.zip asahim@asahi-alarm.org:/public_html/lxqt-btrfs
+            sshpass -e sftp -o StrictHostKeyChecking=no -o BatchMode=no -b - asahim@asahi-alarm.org << EOF
+              rename /public_html/lxqt-btrfs /public_html/asahi-lxqt-btrfs.zip
+            EOF
+            sshpass -e scp -o StrictHostKeyChecking=no asahi-hyprland-btrfs.zip asahim@asahi-alarm.org:/public_html/hyprland-btrfs
+            sshpass -e sftp -o StrictHostKeyChecking=no -o BatchMode=no -b - asahim@asahi-alarm.org << EOF
+              rename /public_html/hyprland-btrfs /public_html/asahi-hyprland-btrfs.zip
+            EOF
+            sshpass -e scp -o StrictHostKeyChecking=no asahi-cosmic-btrfs.zip asahim@asahi-alarm.org:/public_html/cosmic-btrfs
+            sshpass -e sftp -o StrictHostKeyChecking=no -o BatchMode=no -b - asahim@asahi-alarm.org << EOF
+              rename /public_html/cosmic-btrfs /public_html/asahi-cosmic-btrfs.zip
+            EOF
   workflow-keepalive:
     if: github.event_name == 'schedule'
     runs-on: ubuntu-latest

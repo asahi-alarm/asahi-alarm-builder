@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 set -e
 
@@ -13,7 +13,8 @@ IMG="$PWD/img"
 
 EFI_UUID=2ABF-9F91
 ROOT_UUID=725346d2-f127-47bc-b464-9dd46155e8d6
-export ROOT_UUID EFI_UUID
+FSTYPE=ext4
+export ROOT_UUID EFI_UUID FSTYPE
 
 if [ "$(whoami)" != "root" ]; then
 	echo "You must be root to run this script."
@@ -79,7 +80,7 @@ make_uefi_image() {
 	rm -f "$img".zip
 	(
 		cd "$img"
-		zip -r ../"$imgname".zip *
+		zip -r ../"$imgname".zip -- *
 		cd ..
 		rm -rf "$img"
 	)
@@ -96,21 +97,24 @@ make_image() {
 	echo "### Calculating image size..."
 	size="$(du -B M -s "$ROOT" | cut -dM -f1)"
 	echo "### Image size: $size MiB"
-	size=$(($size + ($size / 8) + 256))
+	size=$((size + (size / 8) + 256))
 	echo "### Padded size: $size MiB"
 	rm -f "$img/root.img"
 	truncate -s "${size}M" "$img/root.img"
-	echo "### Making filesystem..."
-	mkfs.btrfs -U "$ROOT_UUID" -L "asahi-root" "$img/root.img"
-	echo "### Creating btrfs subvolumes (@, @home)..."
-	mount -o loop,subvolid=5 "$img/root.img" "$IMG"
-	btrfs subvolume create "$IMG/@"
-	btrfs subvolume create "$IMG/@home"
-
-	umount "$IMG"
-
-	echo "### Mounting @ as / ..."
-	mount -o loop,subvol=@ "$img/root.img" "$IMG"
+	echo "### Making filesystem ($FSTYPE)..."
+	if [ "$FSTYPE" = "btrfs" ]; then
+		mkfs.btrfs -U "$ROOT_UUID" -L "asahi-root" "$img/root.img"
+		echo "### Creating btrfs subvolumes (@, @home)..."
+		mount -o loop,subvolid=5 "$img/root.img" "$IMG"
+		btrfs subvolume create "$IMG/@"
+		btrfs subvolume create "$IMG/@home"
+		umount "$IMG"
+		echo "### Mounting @ as / ..."
+		mount -o loop,subvol=@ "$img/root.img" "$IMG"
+	else
+		mkfs.ext4 -U "$ROOT_UUID" -L "asahi-root" -O '^metadata_csum' "$img/root.img"
+		mount -o loop "$img/root.img" "$IMG"
+	fi
 	echo "### Copying files..."
 	rsync -aHAX \
 		--exclude /files \
@@ -131,7 +135,7 @@ make_image() {
 	rm -f "$img".zip
 	(
 		cd "$img"
-		zip -1 -r ../"$imgname".zip *
+		zip -1 -r ../"$imgname".zip -- *
 		cd ..
 		rm -rf "$img"
 	)
@@ -181,3 +185,43 @@ run_scripts hyprland
 make_image "asahi-hyprland"
 
 make_uefi_image "uefi-only"
+
+# btrfs variants
+FSTYPE=btrfs
+export FSTYPE
+
+init
+run_scripts base
+make_image "asahi-base-btrfs"
+run_scripts plasma
+make_image "asahi-plasma-btrfs"
+
+init
+run_scripts base
+run_scripts gnome
+make_image "asahi-gnome-btrfs"
+
+init
+run_scripts base
+run_scripts cosmic
+make_image "asahi-cosmic-btrfs"
+
+init
+run_scripts base
+run_scripts xfce
+make_image "asahi-xfce-btrfs"
+
+init
+run_scripts base
+run_scripts mate
+make_image "asahi-mate-btrfs"
+
+init
+run_scripts base
+run_scripts lxqt
+make_image "asahi-lxqt-btrfs"
+
+init
+run_scripts base
+run_scripts hyprland
+make_image "asahi-hyprland-btrfs"
