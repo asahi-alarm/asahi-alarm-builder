@@ -57,6 +57,20 @@ init() {
 	pacstrap -G "$ROOT" asahi-alarm-keyring
 }
 
+save_base() {
+	echo "## Saving base snapshot ($FSTYPE)..."
+	tar -C "$ROOT" -cpf "$DL/base-$FSTYPE.tar" .
+}
+
+restore_base() {
+	echo "## Restoring base snapshot ($FSTYPE)..."
+	clean_mounts
+	rm -rf "$ROOT"
+	mkdir -p "$ROOT"
+	tar -C "$ROOT" -xpf "$DL/base-$FSTYPE.tar"
+	mount --bind "$ROOT" "$ROOT"
+}
+
 run_scripts() {
 	group="$1"
 	echo "## Running script group: $group"
@@ -142,45 +156,36 @@ make_image() {
 	echo "### Done"
 }
 
+# ext4 variants
 init
 run_scripts base
 make_image "asahi-base"
+save_base
+
 run_scripts plasma
 make_image "asahi-plasma"
 
-# need to run init and base again or we end up with an image with KDE + GNOME
-init
-run_scripts base
+restore_base
 run_scripts gnome
 make_image "asahi-gnome"
 
-# and again for cosmic
-init
-run_scripts base
+restore_base
 run_scripts cosmic
 make_image "asahi-cosmic"
 
-# and again for XFCE
-init
-run_scripts base
+restore_base
 run_scripts xfce
 make_image "asahi-xfce"
 
-# and again for MATE
-init
-run_scripts base
+restore_base
 run_scripts mate
 make_image "asahi-mate"
 
-# and again for lxqt
-init
-run_scripts base
+restore_base
 run_scripts lxqt
 make_image "asahi-lxqt"
 
-# and again for hyprland
-init
-run_scripts base
+restore_base
 run_scripts hyprland
 make_image "asahi-hyprland"
 
@@ -193,35 +198,31 @@ export FSTYPE
 init
 run_scripts base
 make_image "asahi-base-btrfs"
+save_base
+
 run_scripts plasma
 make_image "asahi-plasma-btrfs"
 
-init
-run_scripts base
+restore_base
 run_scripts gnome
 make_image "asahi-gnome-btrfs"
 
-init
-run_scripts base
+restore_base
 run_scripts cosmic
 make_image "asahi-cosmic-btrfs"
 
-init
-run_scripts base
+restore_base
 run_scripts xfce
 make_image "asahi-xfce-btrfs"
 
-init
-run_scripts base
+restore_base
 run_scripts mate
 make_image "asahi-mate-btrfs"
 
-init
-run_scripts base
+restore_base
 run_scripts lxqt
 make_image "asahi-lxqt-btrfs"
 
-init
-run_scripts base
+restore_base
 run_scripts hyprland
 make_image "asahi-hyprland-btrfs"
