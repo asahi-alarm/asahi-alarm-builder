@@ -160,34 +160,8 @@ make_image() {
 init
 run_scripts base
 make_image "asahi-base"
-save_base
-
-run_scripts plasma
-make_image "asahi-plasma"
-
-restore_base
-run_scripts gnome
-make_image "asahi-gnome"
-
-restore_base
-run_scripts cosmic
-make_image "asahi-cosmic"
-
-restore_base
-run_scripts xfce
-make_image "asahi-xfce"
-
-restore_base
-run_scripts mate
-make_image "asahi-mate"
-
-restore_base
-run_scripts lxqt
-make_image "asahi-lxqt"
-
-restore_base
-run_scripts hyprland
-make_image "asahi-hyprland"
+run_scripts desktop
+make_image "asahi-desktop"
 
 make_uefi_image "uefi-only"
 
@@ -198,31 +172,5 @@ export FSTYPE
 init
 run_scripts base
 make_image "asahi-base-btrfs"
-save_base
-
-run_scripts plasma
-make_image "asahi-plasma-btrfs"
-
-restore_base
-run_scripts gnome
-make_image "asahi-gnome-btrfs"
-
-restore_base
-run_scripts cosmic
-make_image "asahi-cosmic-btrfs"
-
-restore_base
-run_scripts xfce
-make_image "asahi-xfce-btrfs"
-
-restore_base
-run_scripts mate
-make_image "asahi-mate-btrfs"
-
-restore_base
-run_scripts lxqt
-make_image "asahi-lxqt-btrfs"
-
-restore_base
-run_scripts hyprland
-make_image "asahi-hyprland-btrfs"
+run_scripts desktop
+make_image "asahi-desktop-btrfs"
