@@ -8,5 +8,5 @@ pacman --noconfirm --needed -S \
     mesa mesa-demos mesa-utils glmark2 \
     pipewire pipewire-jack pavucontrol wireplumber \
     cage calamares asahi-calamares-configs \
-    firefox \
+    firefox asahi-audio \
     bluez-utils pipewire-pulse bluez-tools
