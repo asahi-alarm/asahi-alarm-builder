@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 set -e
 
@@ -13,7 +13,8 @@ IMG="$PWD/img"
 
 EFI_UUID=2ABF-9F91
 ROOT_UUID=725346d2-f127-47bc-b464-9dd46155e8d6
-export ROOT_UUID EFI_UUID
+FSTYPE=ext4
+export ROOT_UUID EFI_UUID FSTYPE
 
 if [ "$(whoami)" != "root" ]; then
 	echo "You must be root to run this script."
@@ -56,6 +57,20 @@ init() {
 	pacstrap -G "$ROOT" asahi-alarm-keyring
 }
 
+save_base() {
+	echo "## Saving base snapshot ($FSTYPE)..."
+	tar -C "$ROOT" -cpf "$DL/base-$FSTYPE.tar" .
+}
+
+restore_base() {
+	echo "## Restoring base snapshot ($FSTYPE)..."
+	clean_mounts
+	rm -rf "$ROOT"
+	mkdir -p "$ROOT"
+	tar -C "$ROOT" -xpf "$DL/base-$FSTYPE.tar"
+	mount --bind "$ROOT" "$ROOT"
+}
+
 run_scripts() {
 	group="$1"
 	echo "## Running script group: $group"
@@ -79,7 +94,7 @@ make_uefi_image() {
 	rm -f "$img".zip
 	(
 		cd "$img"
-		zip -r ../"$imgname".zip *
+		zip -r ../"$imgname".zip -- *
 		cd ..
 		rm -rf "$img"
 	)
@@ -96,14 +111,24 @@ make_image() {
 	echo "### Calculating image size..."
 	size="$(du -B M -s "$ROOT" | cut -dM -f1)"
 	echo "### Image size: $size MiB"
-	size=$(($size + ($size / 8) + 64))
+	size=$((size + (size / 8) + 256))
 	echo "### Padded size: $size MiB"
 	rm -f "$img/root.img"
 	truncate -s "${size}M" "$img/root.img"
-	echo "### Making filesystem..."
-	mkfs.ext4 -O '^metadata_csum' -U "$ROOT_UUID" -L "asahi-root" "$img/root.img"
-	echo "### Loop mounting..."
-	mount -o loop "$img/root.img" "$IMG"
+	echo "### Making filesystem ($FSTYPE)..."
+	if [ "$FSTYPE" = "btrfs" ]; then
+		mkfs.btrfs -U "$ROOT_UUID" -L "asahi-root" "$img/root.img"
+		echo "### Creating btrfs subvolumes (@, @home)..."
+		mount -o loop,subvolid=5 "$img/root.img" "$IMG"
+		btrfs subvolume create "$IMG/@"
+		btrfs subvolume create "$IMG/@home"
+		umount "$IMG"
+		echo "### Mounting @ as / ..."
+		mount -o loop,subvol=@ "$img/root.img" "$IMG"
+	else
+		mkfs.ext4 -U "$ROOT_UUID" -L "asahi-root" -O '^metadata_csum' "$img/root.img"
+		mount -o loop "$img/root.img" "$IMG"
+	fi
 	echo "### Copying files..."
 	rsync -aHAX \
 		--exclude /files \
@@ -124,53 +149,28 @@ make_image() {
 	rm -f "$img".zip
 	(
 		cd "$img"
-		zip -1 -r ../"$imgname".zip *
+		zip -1 -r ../"$imgname".zip -- *
 		cd ..
 		rm -rf "$img"
 	)
 	echo "### Done"
 }
 
+# ext4 variants
 init
 run_scripts base
 make_image "asahi-base"
-run_scripts plasma
-make_image "asahi-plasma"
-
-# need to run init and base again or we end up with an image with KDE + GNOME
-init
-run_scripts base
-run_scripts gnome
-make_image "asahi-gnome"
-
-# and again for cosmic
-init
-run_scripts base
-run_scripts cosmic
-make_image "asahi-cosmic"
-
-# and again for XFCE
-init
-run_scripts base
-run_scripts xfce
-make_image "asahi-xfce"
-
-# and again for MATE
-init
-run_scripts base
-run_scripts mate
-make_image "asahi-mate"
-
-# and again for lxqt
-init
-run_scripts base
-run_scripts lxqt
-make_image "asahi-lxqt"
-
-# and again for hyprland
-init
-run_scripts base
-run_scripts hyprland
-make_image "asahi-hyprland"
+run_scripts desktop
+make_image "asahi-desktop"
 
 make_uefi_image "uefi-only"
+
+# btrfs variants
+FSTYPE=btrfs
+export FSTYPE
+
+init
+run_scripts base
+make_image "asahi-base-btrfs"
+run_scripts desktop
+make_image "asahi-desktop-btrfs"

@@ -1,15 +1,19 @@
-#!/bin/sh
+#!/usr/bin/env bash
 set -e
 
-MODULES="ext2 part_gpt search"
+if [ "$FSTYPE" = "btrfs" ]; then
+    MODULES="ext2 part_gpt search btrfs"
+    GRUB_PREFIX='/@/boot/grub'
+else
+    MODULES="ext2 part_gpt search"
+    GRUB_PREFIX='/boot/grub'
+fi
 
 mkdir -p /boot/efi
 
-uuid="$ROOT_UUID"
-
 cat >/tmp/grub-core.cfg <<EOF
 search.fs_uuid $ROOT_UUID root
-set prefix=(\$root)'/boot/grub'
+set prefix=(\$root)'$GRUB_PREFIX'
 EOF
 
 # efi_uga seems to be gone

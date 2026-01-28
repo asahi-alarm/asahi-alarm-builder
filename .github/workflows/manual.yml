@@ -27,7 +27,7 @@ jobs:
           run: |
             set -ex
             df -h
-            sudo pacman -S --noconfirm arch-install-scripts sshpass wget rsync zip
+            sudo pacman -S --noconfirm arch-install-scripts sshpass wget rsync zip btrfs-progs
             sudo ./build.sh
             cd images
             # first upload under a different name then rename all the files to the correct name because the upload can take a very long time 
@@ -37,34 +37,19 @@ jobs:
             sshpass -e sftp -o StrictHostKeyChecking=no -o BatchMode=no -b - asahim@asahi-alarm.org << EOF
               rename /public_html/base /public_html/asahi-base.zip
             EOF
-            sshpass -e scp -o StrictHostKeyChecking=no asahi-gnome.zip asahim@asahi-alarm.org:/public_html/gnome
+            sshpass -e scp -o StrictHostKeyChecking=no asahi-desktop.zip asahim@asahi-alarm.org:/public_html/desktop
             sshpass -e sftp -o StrictHostKeyChecking=no -o BatchMode=no -b - asahim@asahi-alarm.org << EOF
-              rename /public_html/gnome /public_html/asahi-gnome.zip
+              rename /public_html/desktop /public_html/asahi-desktop.zip
             EOF
-            sshpass -e scp -o StrictHostKeyChecking=no asahi-plasma.zip asahim@asahi-alarm.org:/public_html/plasma
+            sshpass -e scp -o StrictHostKeyChecking=no asahi-base-btrfs.zip asahim@asahi-alarm.org:/public_html/base-btrfs
             sshpass -e sftp -o StrictHostKeyChecking=no -o BatchMode=no -b - asahim@asahi-alarm.org << EOF
-              rename /public_html/plasma /public_html/asahi-plasma.zip
+              rename /public_html/base-btrfs /public_html/asahi-base-btrfs.zip
             EOF
-            sshpass -e scp -o StrictHostKeyChecking=no asahi-xfce.zip asahim@asahi-alarm.org:/public_html/xfce
+            sshpass -e scp -o StrictHostKeyChecking=no asahi-desktop-btrfs.zip asahim@asahi-alarm.org:/public_html/desktop-btrfs
             sshpass -e sftp -o StrictHostKeyChecking=no -o BatchMode=no -b - asahim@asahi-alarm.org << EOF
-              rename /public_html/xfce /public_html/asahi-xfce.zip
+              rename /public_html/desktop-btrfs /public_html/asahi-desktop-btrfs.zip
             EOF
-            sshpass -e scp -o StrictHostKeyChecking=no asahi-mate.zip asahim@asahi-alarm.org:/public_html/mate
-            sshpass -e sftp -o StrictHostKeyChecking=no -o BatchMode=no -b - asahim@asahi-alarm.org << EOF
-              rename /public_html/mate /public_html/asahi-mate.zip
-            EOF
-            sshpass -e scp -o StrictHostKeyChecking=no asahi-lxqt.zip asahim@asahi-alarm.org:/public_html/lxqt
-            sshpass -e sftp -o StrictHostKeyChecking=no -o BatchMode=no -b - asahim@asahi-alarm.org << EOF
-              rename /public_html/lxqt /public_html/asahi-lxqt.zip
-            EOF
-            sshpass -e scp -o StrictHostKeyChecking=no asahi-hyprland.zip asahim@asahi-alarm.org:/public_html/hyprland
-            sshpass -e sftp -o StrictHostKeyChecking=no -o BatchMode=no -b - asahim@asahi-alarm.org << EOF
-              rename /public_html/hyprland /public_html/asahi-hyprland.zip
-            EOF
-            sshpass -e scp -o StrictHostKeyChecking=no asahi-cosmic.zip asahim@asahi-alarm.org:/public_html/cosmic
-            sshpass -e sftp -o StrictHostKeyChecking=no -o BatchMode=no -b - asahim@asahi-alarm.org << EOF
-              rename /public_html/cosmic /public_html/asahi-cosmic.zip
-            EOF
+
             sshpass -e scp -o StrictHostKeyChecking=no uefi-only.zip asahim@asahi-alarm.org:/public_html/uefi-only
             sshpass -e sftp -o StrictHostKeyChecking=no -o BatchMode=no -b - asahim@asahi-alarm.org << EOF
               rename /public_html/uefi-only /public_html/uefi-only.zip
