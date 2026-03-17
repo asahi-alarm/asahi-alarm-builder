@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-24.04-arm
     steps:
       - name: Check out the repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v6
       - name: Display runner UID and GID
         run: |
           echo "Runner UID: $(id -u)"
