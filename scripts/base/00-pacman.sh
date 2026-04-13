@@ -1,4 +1,4 @@
-#!/bin.sh
+#!/bin/sh
 set -e
 
 sed -i -e 's/^#ParallelDownloads = 5/ParallelDownloads = 5/' /etc/pacman.conf
