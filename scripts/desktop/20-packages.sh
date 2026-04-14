@@ -7,6 +7,6 @@ pacman --noconfirm --needed -S \
     man-db alsa-tools alsa-utils evtest iotop \
     mesa mesa-demos mesa-utils glmark2 \
     pipewire pipewire-jack pavucontrol wireplumber \
-    cage calamares asahi-calamares-configs \
+    cage xorg-server-xwayland calamares asahi-calamares-configs \
     firefox \
     bluez-utils pipewire-pulse bluez-tools
