@@ -1,7 +1,8 @@
 name: build installer images
 on:
   schedule:
-    - cron: "0 6 * * 1"
+    - cron: "0 8 * * 1"
+      timezone: "Europe/Brussels"
   workflow_dispatch:
 jobs:
   compile:
