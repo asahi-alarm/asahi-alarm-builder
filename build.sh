@@ -101,6 +101,41 @@ make_uefi_image() {
 	echo "### Done"
 }
 
+make_live_image() {
+	imgname="$1"
+	img="$IMAGES/$imgname"
+	mkdir -p "$img"
+	echo "## Making live ISO image $imgname"
+	echo "### Creating ISO directory tree..."
+	mkdir -p "$img/boot/grub"
+	mkdir -p "$img/asahi/aarch64"
+	mkdir -p "$img/asahi/boot"
+
+	echo "### Moving initrd..."
+	mv "$ROOT/boot/initramfs-live.img" "$img/asahi/boot/initramfs-linux.img"
+
+	echo "### Copying kernel..."
+	cp "$ROOT"/boot/vmlinuz* "$img/asahi/boot/vmlinuz"
+
+	echo "### Creating squashfs..."
+	mksquashfs "$ROOT" "$img/asahi/aarch64/airootfs.sfs" -noappend -comp zstd -wildcards -e 'var/cache/pacman/pkg/*' 'boot/initramfs-live.img'
+
+	echo "### Configuring GRUB..."
+	cat > "$img/boot/grub/grub.cfg" <<EOF
+search --no-floppy --set=root --label "${imgname^^}"
+linux /asahi/boot/vmlinuz archisobasedir=asahi archisolabel="${imgname^^}" rw fstab=no
+initrd /asahi/boot/initramfs-linux.img
+boot
+EOF
+
+	echo "### Creating bootable ISO with grub-mkrescue..."
+	grub-mkrescue -o "$IMAGES/$imgname.iso" -volid "${imgname^^}" "$img"
+	
+	echo "### Cleaning up temporary files..."
+	rm -rf "$img"
+	echo "### Done"
+}
+
 make_image() {
 	imgname="$1"
 	img="$IMAGES/$imgname"
@@ -160,6 +195,10 @@ make_image() {
 init
 run_scripts base
 make_image "asahi-base"
+
+run_scripts livecd
+make_live_image "asahi-base-livecd"
+
 run_scripts desktop
 make_image "asahi-desktop"
 
